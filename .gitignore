@@ -1,0 +1,71 @@
+# ── Scene data & results (large, dataset-specific) ───────────────────────────
+data/
+results/
+result/
+optimization_results/
+
+# ── Model weights & checkpoints ──────────────────────────────────────────────
+*.pt
+*.pth
+*.ckpt
+checkpoints/
+
+# ── Large binary / archive files ─────────────────────────────────────────────
+*.zip
+*.tar.gz
+*.tar
+*.rar
+
+# ── YOLO weights (bundled locally, too large for git) ────────────────────────
+yolov8*.pt
+yolov8*.pth
+
+# ── Python cache ─────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# ── Build / distribution ─────────────────────────────────────────────────────
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ── Virtual environments / conda ─────────────────────────────────────────────
+.conda/
+.venv/
+venv/
+env/
+
+# ── IDE & editor files ────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── Temporary & debug outputs ─────────────────────────────────────────────────
+temp.py
+tmp*/
+tmpbw396_xg/
+*.log
+output.png
+debug_*.jpg
+debug_*.png
+final_*.jpg
+
+# ── Jupyter ───────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb
+
+# ── External viewer (cloned separately from antimatter15/splat) ───────────────
+splat_viewer/
+
+# ── AI assistant / editor session files ──────────────────────────────────────
+.claude/
+.codex
+
+# ── OS metadata ───────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db

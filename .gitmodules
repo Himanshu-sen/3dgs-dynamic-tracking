@@ -1,0 +1,3 @@
+[submodule "EfficientLoFTR"]
+	path = EfficientLoFTR
+	url = https://github.com/zju3dv/EfficientLoFTR.git
