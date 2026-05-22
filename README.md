@@ -51,6 +51,14 @@ COLMAP sparse ───┘                                                   │
 real video frames ──────────────▶ [4] camera align ─▶ [5] PnP track ─▶ per-frame SE(3) pose
 ```
 
+> **Camera pose — two routes.** Stage 4 above uses photometric optimization
+> ([`camera_pose_optimization.py`](camera_pose_optimization.py)).
+> [`viewmat_estimation.py`](viewmat_estimation.py) is an **alternative camera-pose
+> estimator**: it localizes by **feature-descriptor retrieval + PnP** —
+> FAISS-indexed COLMAP views (DINO global descriptors), keypoint matching, then
+> robust PnP — which handles large viewpoint baselines where photometric
+> optimization would need a close initialization.
+
 A deeper, step-by-step technical description is in [`docs/PIPELINE.md`](docs/PIPELINE.md).
 
 ---
@@ -159,10 +167,12 @@ Dataset preparation is described in [`installation_usage.md`](installation_usage
 ├── demof.py                      Step 1 — gradient-based 3D segmentation
 ├── object_shape_bbox.py          Step 2 — object shape & bounding box
 ├── table_inpaint_under_object.py Step 3 — background / table inpainting
-├── camera_pose_optimization.py   Step 4 — camera pose optimization
+├── camera_pose_optimization.py   Step 4 — camera pose via photometric optimization
+├── viewmat_estimation.py         Step 4 (alt) — camera pose via descriptor retrieval + PnP
 ├── dynamic_object_pose_pnp.py    Step 5 — dynamic object pose (PnP)
 │
 ├── draw_bbox.py  mask_utils.py  matching.py  utils.py
+├── global_descriptors.py         DINO global descriptors (used by viewmat_estimation.py)
 ├── utils_for_target_update.py    Shared helpers
 ├── assets/                       Images used by this README
 └── EfficientLoFTR/               Feature matcher (git submodule)

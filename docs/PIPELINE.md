@@ -102,6 +102,25 @@ The virtual camera is aligned to the **real static camera**:
 > captured from.** Stage 5 assumes this pose is the fixed camera; a mismatch is
 > later misread as object motion.
 
+### Alternative — feature-descriptor localization
+
+[`viewmat_estimation.py`](../viewmat_estimation.py) is a second, optimization-free
+way to recover the camera pose — useful when the query view is far from any
+training view:
+
+1. Index every COLMAP database image with a **DINO global descriptor**
+   ([`global_descriptors.py`](../global_descriptors.py)) in a **FAISS** index.
+2. Retrieve the nearest database views for the query image.
+3. Match local keypoints (SIFT or a learned matcher) between the query and the
+   retrieved views.
+4. Map matched database keypoints to their COLMAP 3D points via per-image
+   KD-trees, producing 2D–3D correspondences.
+5. Solve **PnP + RANSAC** for the camera pose.
+
+Unlike the photometric route it needs no initial pose and handles large
+viewpoint baselines; the photometric route is more precise once the pose is
+already close. The two are complementary.
+
 ---
 
 ## Stage 5 — Dynamic object pose (PnP)
