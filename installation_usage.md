@@ -101,6 +101,15 @@ placed under `data/<dataset>/` (see next section).
 
 ## 4. Dataset preparation
 
+📦 **Download the sample datasets:** [**Google Drive**](https://drive.google.com/file/d/1eN68qAjqv5BhF6cfiISJVnUkrYIBHeq-/view?usp=sharing)
+
+From the command line (`gdown` is installed by `installation.sh`):
+
+```bash
+gdown 1eN68qAjqv5BhF6cfiISJVnUkrYIBHeq-
+# then extract the archive so each scene ends up under data/<dataset>/
+```
+
 Each scene lives in its own folder under `data/`:
 
 ```

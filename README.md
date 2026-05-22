@@ -85,7 +85,7 @@ under `data/<dataset>/` — see below.
 The scene data (COLMAP reconstruction, training images, the 3DGS checkpoint, the
 camera image and the video frames) is **not** bundled in this repository.
 
-📦 **Download the sample datasets:** _**[ dataset link — to be added ]**_
+📦 **Download the sample datasets:** [**Google Drive**](https://drive.google.com/file/d/1eN68qAjqv5BhF6cfiISJVnUkrYIBHeq-/view?usp=sharing)
 
 Expected layout per scene:
 
