@@ -55,6 +55,49 @@ A deeper, step-by-step technical description is in [`docs/PIPELINE.md`](docs/PIP
 
 ---
 
+## Performance
+
+The dynamic update loop — render → match → solve → transform → re-render — runs
+end-to-end in **≈ 40 ms per frame (25 FPS)** on a single **NVIDIA RTX A6000**,
+with **no per-frame optimization and no re-training**.
+
+### Per-frame timing breakdown
+
+| Stage | Time (ms) |
+|-------|----------:|
+| Reference RGB + depth render | 9.2 |
+| Object-alpha render *(overlapped on a separate CUDA stream)* | *(6.8, hidden)* |
+| Target image load + GPU transfer | 3.1 |
+| EfficientLoFTR matching (bfloat16) | 14.7 |
+| Mask filter + GPU back-projection | 0.9 |
+| MAGSAC++ PnP | 2.4 |
+| Gaussian transform (`index_copy_`) | 0.4 |
+| Updated-scene render | 8.8 |
+| **Total** | **≈ 40   (25 FPS)** |
+
+<sub>Measured on an NVIDIA RTX A6000, averaged over 50 frames. The object-alpha
+render overlaps the RGB+depth render via CUDA streams, so its cost is hidden in
+the total.</sub>
+
+### Comparison with related approaches
+
+| Method | Per-frame object update | Per-scene training | Speed |
+|--------|:----------------------:|:-----------------:|------:|
+| D-NeRF *(deformation MLP)* | ✗ | required | offline |
+| Deformable / 4D 3D Gaussians | ✗ | required | offline |
+| Iterative photometric alignment *(Adam)* | ✓ | none | ≈ 340 ms / frame |
+| **This method** *(feature matching + PnP)* | **✓** | **none** | **≈ 40 ms / frame (25 FPS)** |
+
+<sub>D-NeRF and Deformable 3D Gaussians fit a dense deformation field to a
+pre-recorded sequence and require per-scene training, so they have no directly
+comparable per-frame object-pose cost. The iterative-photometric row is this
+repository's own optimization-based pose route
+([`camera_pose_optimization.py`](camera_pose_optimization.py)) measured on the
+same hardware — accurate, but ≈ 8× slower than the feature-matching + PnP path
+used for dynamic tracking.</sub>
+
+---
+
 ## Quick start
 
 > **Requirements:** Linux, an NVIDIA GPU with CUDA, and Conda. See
